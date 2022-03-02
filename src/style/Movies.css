@@ -1,0 +1,17 @@
+.main {
+  background-color: #1d1d1d;
+}
+
+.movies-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.main h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0 0 0;
+  text-align: center;
+  color: #6ac045;
+}
