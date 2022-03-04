@@ -6,7 +6,7 @@ import { Search } from "../components/Search";
 import "../style/Movies.css";
 
 const Main = () => {
-  const { movies } = useApi();
+  const { movies, setMovies } = useApi();
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(20);
   const [showMovies, setShowMovies] = useState([]);
@@ -19,23 +19,17 @@ const Main = () => {
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
 
-  useEffect(() => {
-    setShowMovies(currentMovies);
-  }, [movies, currentPage]);
-
   return (
     <div>
       <Search
         movies={movies}
         searchMovie={searchMovie}
         setSearchMovie={setSearchMovie}
-        setShowMovies={setShowMovies}
+        setMovies={setMovies}
       />
       <main className="main">
         <div className="container">
-          <h2>{`${
-            searchMovie.searched == false ? movies.length : showMovies.length
-          } Movies found`}</h2>
+          <h2>{`${movies.length} Movies found`}</h2>
           <Pagination
             movies={movies}
             searchMovie={searchMovie}
@@ -45,7 +39,7 @@ const Main = () => {
             setCurrentPage={setCurrentPage}
           />
           <section className="movies-container">
-            {showMovies.map((movie) => (
+            {currentMovies.map((movie) => (
               <Card
                 key={movie.id}
                 bckimg={movie.medium_cover_image}

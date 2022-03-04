@@ -1,26 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../style/components/Pagination.css";
 
-const Pagination = ({
-  movies,
-  showMovies,
-  searchMovie,
-  moviesPerPage,
-  currentPage,
-  setCurrentPage,
-}) => {
+const Pagination = ({ movies, moviesPerPage, currentPage, setCurrentPage }) => {
   const numberPagination = [];
 
-  if (searchMovie.searched == false) {
-    for (let i = 1; i <= Math.ceil(movies.length / moviesPerPage); i++) {
-      numberPagination.push(i);
-    }
-  } else if (showMovies.length < moviesPerPage) {
-    return numberPagination;
-  } else {
-    for (let i = 1; i <= Math.ceil(showMovies.length / moviesPerPage); i++) {
-      numberPagination.push(i);
-    }
+  for (let i = 1; i <= Math.ceil(movies.length / moviesPerPage); i++) {
+    numberPagination.push(i);
   }
 
   const handlePagination = (number) => {

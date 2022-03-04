@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useApi = () => {
   const [movies, setMovies] = useState([]);

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../style/components/Search.css";
 
-const Search = ({ movies, searchMovie, setSearchMovie, setShowMovies }) => {
+const Search = ({ movies, searchMovie, setSearchMovie, setMovies }) => {
   const [state, setState] = useState({
     quality: undefined,
+    rating: undefined,
   });
   let searchedMovies = [];
 
@@ -21,13 +22,24 @@ const Search = ({ movies, searchMovie, setSearchMovie, setShowMovies }) => {
     return movieQuality.includes(state.quality);
   });
 
-  if (searchMovie != "") {
-    searchedMovies = searchedMoviesByTerm;
-  } else if (state.quality != undefined) {
-    searchedMovies = searchMoviesByQuality;
-  } else {
-    return searchedMovies;
-  }
+  // buscar peliculas por rating
+
+  const searchMoviesByRating = movies.filter((movie) => {
+    const movieRating = Math.floor(movie.rating);
+    return movieRating >= state.rating;
+  });
+
+  searchedMovies = searchMoviesByRating;
+
+  // if (searchMovie != "") {
+  //   searchedMovies = searchedMoviesByTerm;
+  // } else if (state.quality != undefined) {
+  //   searchedMovies = searchMoviesByQuality;
+  // } else if (state.rating != undefined) {
+  //   searchedMovies = searchMoviesByRating;
+  // } else {
+  //   return searchedMovies;
+  // }
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -38,8 +50,9 @@ const Search = ({ movies, searchMovie, setSearchMovie, setShowMovies }) => {
       searched: true,
     });
 
+    console.log(searchedMovies);
     // seteando peliculas buscadas para renderizar
-    setShowMovies(searchedMovies);
+    setMovies(searchedMovies);
   };
 
   return (
@@ -53,10 +66,10 @@ const Search = ({ movies, searchMovie, setSearchMovie, setShowMovies }) => {
                 className="input me-3"
                 type="text"
                 value={searchMovie.value}
-                onChange={(event) =>
+                onChange={(e) =>
                   setSearchMovie({
                     ...searchMovie,
-                    value: event.target.value,
+                    value: e.target.value,
                   })
                 }
               />
@@ -66,9 +79,9 @@ const Search = ({ movies, searchMovie, setSearchMovie, setShowMovies }) => {
             <div className="select-container">
               <p>Quality:</p>
               <select
-                onChange={(event) =>
+                onChange={(e) =>
                   setState({
-                    quality: event.target.value,
+                    quality: e.target.value,
                   })
                 }
               >
@@ -88,9 +101,17 @@ const Search = ({ movies, searchMovie, setSearchMovie, setShowMovies }) => {
             </div>
             <div className="select-container">
               <p>Rating:</p>
-              <select>
+              <select
+                onChange={(e) =>
+                  setState({
+                    rating: e.target.value,
+                  })
+                }
+              >
                 <option>All</option>
-                <option>9+</option>
+                <option value={9}>9+</option>
+                <option value={8}>8+</option>
+                <option value={7}>7+</option>
               </select>
             </div>
             <div className="select-container">
